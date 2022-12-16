@@ -5,6 +5,20 @@
 }
 
 <h2>LoginUser</h2>
+<style>
+    
+    body {
+        background-image: url('../Images/Login.jpg');
+        background-position: inherit;
+        background-repeat: no-repeat;
+        background-size: cover;
+
+        
+    }
+
+
+    
+</style>
 
 
 @using (Html.BeginForm()) 
@@ -33,14 +47,14 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Login" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "pacakgeDetails")
 </div>
 
 @section Scripts {

@@ -32,29 +32,8 @@ namespace WashMVC.Controllers
             return View(users);
         }
         #endregion
-        //Action method to create user
-        #region
-        public async Task<ActionResult> Create(UserViewmodel user)
-        {
-            if (ModelState.IsValid)
-            {
-                UserViewmodel newUser = new UserViewmodel();
-                var service = new ServiceRepository();
-                {
-                    using (var response = service.PostResponse("UserTable", user))
-                    {
-                        string apiResponse = await response.Content.ReadAsStringAsync();
-                        newUser = JsonConvert.DeserializeObject<UserViewmodel>(apiResponse);
-                    }
-                }
-
-
-
-                return RedirectToAction("Index");
-            }
-            return View(user);
-        }
-        #endregion
+     
+        
         //ActionMethod to delete user
         #region
         public async Task<ActionResult> Delete(int Id)

@@ -250,12 +250,12 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
-    <Content Include="Views\User\Create.cshtml" />
     <Content Include="Views\User\Delete.cshtml" />
     <Content Include="Views\User\EditUser.cshtml" />
     <Content Include="Views\Login\LoginUser.cshtml" />
-    <Content Include="Views\Login\LoginUserZ.cshtml" />
     <Content Include="Views\Package\PacakgeDetails.cshtml" />
+    <Content Include="Views\Login\HomePage.cshtml" />
+    <Content Include="Views\Login\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

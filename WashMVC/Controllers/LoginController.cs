@@ -13,47 +13,52 @@ namespace WashMVC.Controllers
 {
     public class LoginController : Controller
     {
-        //public ActionResult LoginUser()
-        //{
-        //    return View();
-        //}
-        //[HttpPost]
-        //public async Task<ActionResult> LoginUser(LoginUser login)
-        //{
-        //    try
-        //    {
-        //        if (ModelState.IsValid)
-        //        {
-        //            LoginUser newUser = new LoginUser();
-        //            var service = new ServiceRepository();
-        //            {
-        //                using (var response = service.VerifyLogin("api/Login", login))
-        //                {
-        //                    string apiResponse = await response.Content.ReadAsStringAsync();
-        //                    newUser = JsonConvert.DeserializeObject<LoginUser>(apiResponse);
-        //                }
-        //            }
-        //            if (newUser != null)
-        //            {
-        //                ViewBag.message = "Login Success";
-        //            }
-        //            else
-        //            {
-        //                ViewBag.message = "incorrect";
-        //            }
-        //        }
-        //    }
-        //    catch
-        //    {
-
-        //    }
-        //    return View("HomePage");
-
-        //}
-        public ActionResult LoginUserZ()
+        public ActionResult HomePage()
         {
             return View();
         }
+        public ActionResult LoginUser()
+        {
+            return View();
+        }
+      
+
+        [HttpPost]
+        public async Task<ActionResult> LoginUser(LoginUser login)
+        {
+            
+            
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    LoginUser newUser = new LoginUser();
+                    var service = new ServiceRepository();
+                    {
+                        using (var response = service.VerifyLogin("api/Login", login))
+                        {
+                            string apiResponse = await response.Content.ReadAsStringAsync();
+                            newUser = JsonConvert.DeserializeObject<LoginUser>(apiResponse);
+                        }
+                    }
+                    if (newUser != null)
+                    {
+                        ViewBag.message = "Login Success";
+                    }
+                    else
+                    {
+                        ViewBag.message = "incorrect";
+                    }
+                }
+            }
+            catch
+            {
+
+            }
+            return RedirectToAction("PacakgeDetails","Package" );
+
+        }
+      
 
         //This Post Method will validate the userName & Password valid or not using WebAPI
         [HttpPost]
@@ -66,7 +71,7 @@ namespace WashMVC.Controllers
                 {
                     HttpClient hc = new HttpClient();
                     hc.BaseAddress = new Uri("https://localhost:44345/api/Login"); // URL for Login WebAPI
-                    var checkLoginDetails = hc.PostAsJsonAsync<UserViewmodel>("UserTable", Ur);//Asynchronosly passing the values in Json Format to API
+                    var checkLoginDetails = hc.PostAsJsonAsync<UserViewmodel>("LoginS", Ur);//Asynchronosly passing the values in Json Format to API
                     var checkrec = checkLoginDetails.Result;//Checking the User Login ID & Password 
 
                     //Condition for Successfull Login We need to Navigate to Flght Seach Page 
@@ -79,12 +84,36 @@ namespace WashMVC.Controllers
                     {
                         ViewBag.message = "Invalid User Id & Password";
                     }
-                    return RedirectToAction("PackageDetails", "Package");
+                    
                 }
             }
             return View();
 
         }
+       
+        //Action method to create user
+        #region
+        public async Task<ActionResult> Create(UserViewmodel user)
+        {
+            if (ModelState.IsValid)
+            {
+                UserViewmodel newUser = new UserViewmodel();
+                var service = new ServiceRepository();
+                {
+                    using (var response = service.PostResponse("UserTable", user))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        newUser = JsonConvert.DeserializeObject<UserViewmodel>(apiResponse);
+                    }
+                }
+
+
+
+                return RedirectToAction("Index","User");
+            }
+            return View(user);
+        }
+        #endregion
     }
 
 }

@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewBag.Title = "HomePage";
+}
+
+
+<h2>HomePage</h2>
+<style>
+
+    body {
+        background-image: url('../Images/Login.jpg');
+        background-position: inherit;
+        background-repeat: no-repeat;
+        background-size: cover;
+
+
+    }
+
+
+
+</style>
+
+<div>
+    @Html.ActionLink("RegisterUser", "Create")
+</div>
+<div>
+    @Html.ActionLink("LoginUser", "LoginUser")
+</div>
