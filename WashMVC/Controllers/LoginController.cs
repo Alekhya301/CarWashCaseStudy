@@ -2,10 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using WashMVC.Models;
 using WashMVC.Repositories;
 
@@ -17,37 +17,38 @@ namespace WashMVC.Controllers
         {
             return View();
         }
-        public ActionResult LoginUser()
+        // GET: Login
+        [HttpGet]
+        public ActionResult Login()
         {
             return View();
         }
-      
-
         [HttpPost]
-        public async Task<ActionResult> LoginUser(LoginUser login)
+        //[ValidateAntiForgeryToken]
+        public async Task<ActionResult> Login([Bind(Include = "Email, Password")] LoginModel login)
+            
         {
-            
-            
             try
             {
                 if (ModelState.IsValid)
                 {
-                    LoginUser newUser = new LoginUser();
+                    UserViewmodel newUser = new UserViewmodel();
                     var service = new ServiceRepository();
                     {
-                        using (var response = service.VerifyLogin("api/Login", login))
+                        using (var response = service.PostResponse("Login", login))
                         {
                             string apiResponse = await response.Content.ReadAsStringAsync();
-                            newUser = JsonConvert.DeserializeObject<LoginUser>(apiResponse);
+                            newUser = JsonConvert.DeserializeObject<UserViewmodel>(apiResponse);
                         }
                     }
                     if (newUser != null)
                     {
-                        ViewBag.message = "Login Success";
+                        FormsAuthentication.SetAuthCookie(login.Email, false);
+                        return RedirectToAction("Index", "User");
                     }
                     else
                     {
-                        ViewBag.message = "incorrect";
+                        ViewBag.ErrorMessage = "The Email or Password provided is incorrect";
                     }
                 }
             }
@@ -55,42 +56,20 @@ namespace WashMVC.Controllers
             {
 
             }
-            return RedirectToAction("PacakgeDetails","Package" );
-
-        }
-      
-
-        //This Post Method will validate the userName & Password valid or not using WebAPI
-        [HttpPost]
-        public ActionResult LoginUserZ(UserViewmodel Ur)
-        {
-            if (!(string.IsNullOrEmpty(Ur.Email) || string.IsNullOrEmpty(Ur.Password)))
-            {
-
-                if (!ModelState.IsValid)
-                {
-                    HttpClient hc = new HttpClient();
-                    hc.BaseAddress = new Uri("https://localhost:44345/api/Login"); // URL for Login WebAPI
-                    var checkLoginDetails = hc.PostAsJsonAsync<UserViewmodel>("LoginS", Ur);//Asynchronosly passing the values in Json Format to API
-                    var checkrec = checkLoginDetails.Result;//Checking the User Login ID & Password 
-
-                    //Condition for Successfull Login We need to Navigate to Flght Seach Page 
-                    if ((int)checkrec.StatusCode == 200)
-                    {
-                        ViewBag.message = "Login Success!!";
-                    }
-                    //Condition for Invalid User Name & Password
-                    if ((int)checkrec.StatusCode == 426)
-                    {
-                        ViewBag.message = "Invalid User Id & Password";
-                    }
-                    
-                }
-            }
             return View();
 
         }
-       
+
+        public ActionResult LogOff()
+        {
+
+            //Session.Remove("UserID");
+
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Login");
+
+        }
+
         //Action method to create user
         #region
         public async Task<ActionResult> Create(UserViewmodel user)
@@ -103,17 +82,18 @@ namespace WashMVC.Controllers
                     using (var response = service.PostResponse("UserTable", user))
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync();
-                        newUser = JsonConvert.DeserializeObject<UserViewmodel>(apiResponse);
+                        //newUser = JsonConvert.DeserializeObject<UserViewmodel>(apiResponse);
                     }
                 }
 
 
 
-                return RedirectToAction("Index","User");
+                return RedirectToAction("Index", "User");
             }
             return View(user);
         }
         #endregion
+
     }
 
 }

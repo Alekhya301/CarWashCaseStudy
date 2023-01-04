@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Helpers;
 using WebApi.Models;
 
 namespace WebApi.Repositories
@@ -19,13 +20,12 @@ namespace WebApi.Repositories
             UserTable user = null;
             try
             {
-                var checkValidUser = _context.UserTables.Where(m => m.Email == Email &&
-            m.Password == Password).FirstOrDefault();
-                if (checkValidUser != null)
-                {
-                    user = checkValidUser;
-                }
+                var userFound = _context.UserTables.Where(u => u.Email == Email && u.Password == Password).SingleOrDefault();
 
+                if (userFound != null)
+                {
+                    user = userFound;
+                }
                 else
                 {
                     user = null;
@@ -33,11 +33,13 @@ namespace WebApi.Repositories
             }
             catch (Exception ex)
             {
+                throw ex;
             }
             return user;
+
         }
 
-        
+
 
     }
 }

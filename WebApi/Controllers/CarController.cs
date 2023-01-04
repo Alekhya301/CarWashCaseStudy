@@ -9,27 +9,28 @@ using WebApi.Repositories;
 
 namespace WebApi.Controllers
 {
-    [RoutePrefix("api/Package")]
-    public class PackageController : ApiController
+    [RoutePrefix("api/Car")]
+    public class CarController : ApiController
     {
-        IPackage<Package> _package;
-        public PackageController()
+       
+        ICar<Car> _car;
+        public CarController()
         {
-            this._package = new PackageImplement(new CarWashEntities());
+            this._car = new ICarImplement(new CarWashEntities());
         }
 
-        //ActionMethod to Create package
+        //ActionMethod to give car details
         #region
         [HttpPost]
         [Route("")]
-        public IHttpActionResult Create(Package package)
+        public IHttpActionResult Create(Car car)
         {
-            Package packageObj = null;
+            UserTable carObj = null;
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest("Invalid data.");
-                _package.Add(package);
+                _car.Add(car);
 
             }
             catch (Exception)
@@ -41,20 +42,23 @@ namespace WebApi.Controllers
 
         }
         #endregion
-        //ActionMethod To Get all packages
+        //ActionMethod To Get all cars details
         #region
 
         [HttpGet]
         [Route("")]
-        public IEnumerable<Package> Get()
+        public IEnumerable<Car> Get()
         {
-            var users = _package.Get();
-            return users;
+            var cars = _car.Get();
+            return cars;
         }
+        #endregion
+        //Actionmethod to delete car details
+        #region
         [HttpDelete]
         public IHttpActionResult Delete(int Id)
         {
-            _package.Delete(Id);
+            _car.Delete(Id);
             if (Id <= 0)
                 return BadRequest("Not a valid id");
 
@@ -63,16 +67,16 @@ namespace WebApi.Controllers
 
         }
         #endregion
-        //ActionMethod to Update User
+        //ActionMethod to Update car details
         #region
         [HttpPut]
-        public IHttpActionResult Update(int Id, Package package)
+        public IHttpActionResult Update(int Id, Car car)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest("Not a valid model");
-                _package.Update(Id, package);
+                _car.Update(Id, car);
 
             }
             catch (Exception)
@@ -86,13 +90,13 @@ namespace WebApi.Controllers
 
         }
         #endregion
-        //ActionMethod to get Package by Id
+        //ActionMethod to get car details  by Id
         #region
         [HttpGet]
-        public Package GetById(int Id)
+        public Car GetById(int Id)
         {
-            var user = _package.GetById(Id);
-            return user;
+            var car = _car.GetById(Id);
+            return car;
         }
         #endregion
 

@@ -50,18 +50,42 @@ namespace WashMVC.Controllers
         #endregion
         //Actionmethod to update user
         #region
-        public async Task<ActionResult> EditUser(int Id)
+        // GET: users/Edit/5
+
+        public async Task<ActionResult> Edit(int id)
         {
             UserViewmodel user = new UserViewmodel();
             var service = new ServiceRepository();
             {
-                using (var response = service.UpdateResponse("UserTable/", Id))
+                using (var response = service.GetResponse("UserTable" + "/" + id))
                 {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    user = JsonConvert.DeserializeObject<UserViewmodel>(apiResponse);
+                    string apiResponse
+                        = await response.Content.ReadAsStringAsync();
+                    user
+                        = JsonConvert.DeserializeObject<UserViewmodel>(apiResponse);
                 }
             }
             return View(user);
+        }
+
+
+
+        [HttpPost]
+
+        public async Task<ActionResult> Edit(UserViewmodel user)
+        {
+            UserViewmodel users = new UserViewmodel();
+            var service = new ServiceRepository();
+            {
+                using (var response = service.EditResponse("UserTable"
+                + "/" + user.Id, user))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    //updatepackage = JsonConvert
+                    // .DeserializeObject<PackageViewModel>(apiResponse);
+                }
+            }
+            return RedirectToAction("Index","User");
         }
         #endregion
 

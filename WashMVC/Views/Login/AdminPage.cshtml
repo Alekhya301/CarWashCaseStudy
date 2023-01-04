@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "HomePage";
+    ViewBag.Title = "AdminPage";
 }
 @{
     Layout = null;
@@ -10,9 +10,8 @@
 
 <html>
 <head>
-    
+    <h1> Admin Login</h1>
     <meta name="viewport" content="width=device-width" />
-    <title>On-Demand CarWash</title>
     <style type="text/css">
         * {
             margin: 0;
@@ -21,22 +20,15 @@
 
         body {
             background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(../Images/wah.jpg);
-            background-position:center;
+            background-position: center;
             background-position: inherit;
             background-size: cover;
             background-repeat: no-repeat;
             font-family: sans-serif;
             margin-top: 40px;
         }
-        .regform {
-            background-color:transparent;
-            margin: auto;
-            color: #FFFFFF;
-            padding: 10px 0px 10px 0px;
-            text-align: center;
-            border-radius: 15px 15px 0px 0px;
-        }
-            .register {
+
+        .user {
             background-color: white;
             border: 2px solid black;
             color: green;
@@ -47,19 +39,8 @@
             margin: 10px 30px;
             cursor: pointer;
         }
-        .login {
-            background-color: white;
-            border: 2px solid black;
-            color: green;
-            padding: 5px 10px;
-            text-align: center;
-            display: inline-block;
-            font-size: 20px;
-            font-style:normal;
-            margin: 10px 30px;
-            cursor: pointer;
-        }
-        .admin {
+
+        .package {
             background-color: white;
             border: 2px solid black;
             color: green;
@@ -70,32 +51,54 @@
             margin: 10px 30px;
             cursor: pointer;
         }
-        </head>
-        </style>
-   
 
-    <body>
-        <div class="regform">
-            <h1>Home Page</h1>
-            <h1> Welcome to GreenWash</h1>
-            <div class="register">
-                <div class="register">
-                    <p>
+        .car {
+            background-color: white;
+            border: 2px solid black;
+            color: green;
+            padding: 5px 10px;
+            text-align: center;
+            display: inline-block;
+            font-size: 20px;
+            margin: 10px 30px;
+            cursor: pointer;
+        }
 
-                        @Html.ActionLink("RegisterUser", "Create")
-                    </p>
-                </div>
+        .register {
+            background-color: white;
+            border: 2px solid black;
+            color: green;
+            padding: 5px 10px;
+            text-align: center;
+            display: inline-block;
+            font-size: 20px;
+            margin: 10px 30px;
+            cursor: pointer;
+        }
 
-                <div class="login">
-                    <p>
-                        @Html.ActionLink("AdminLogin", "LoginUser")
-                    </p>
-                </div>
-                <div class="admin">
-                    <p>
-                        @Html.ActionLink("UserLogin", "UserLogin")
-                    </p>
-                </div>
-</body>
-    </html>
+        </head >
+    </style>
+
+
+
+    <div class="user">
+        <p>
+            @Html.ActionLink("UserManagement Details", "Index", "User")
+        </p>
+    </div>
+
+    <div class="package">
+        <p>
+            @Html.ActionLink("PackageManagementDetails", "PacakgeDetails", "Package")
+        </p>
+    </div>
+
+    <div class="car">
+        <p>
+            @Html.ActionLink("CarManagementDetails", "CarDetails", "Car")
+        </p>
+    </div>
+    </body>
+</html>
+
 

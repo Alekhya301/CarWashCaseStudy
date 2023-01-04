@@ -13,13 +13,14 @@ namespace WebApi.Controllers
     
     public class LoginController : ApiController
     {
-        AccountImplement _accountImplement;
+        IAccountRepository _accountImplement;
         public LoginController()
         {
             this._accountImplement = new AccountImplement(new CarWashEntities());
         }
 
         [HttpPost]
+        [Route("")]
         
         public IHttpActionResult VerifyLogin(Login objlogin)
         {
@@ -28,21 +29,21 @@ namespace WebApi.Controllers
             {
                 user = _accountImplement.VerifyLogin(objlogin.Email, objlogin.Password);
 
-                if (user != null)
+                if (user == null)
                 {
-                    //return NotFound();
-                    return Ok(user);
+                    return NotFound();
+                   
 
                 }
 
             }
             catch (Exception ex)
             {
-
+                throw ex;
             }
 
-            //return Ok(customer);
-            return NotFound();
+            return Ok(user);
+            
 
         }
         

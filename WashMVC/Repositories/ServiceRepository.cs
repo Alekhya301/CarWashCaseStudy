@@ -38,21 +38,28 @@ namespace WashMVC.Repositories
         #endregion
         //Method to Update Users
         #region
-        public HttpResponseMessage UpdateResponse(string url, int Id)
+        public HttpResponseMessage UpdateResponse(string url, int id)
         {
-            return client.GetAsync(url + Id.ToString()).Result;
+            return client.GetAsync(url + id.ToString()).Result;
         }
         public HttpResponseMessage EditResponse(string url, object content)
         {
             return client.PutAsJsonAsync(url, content).Result;
         }
         #endregion
+        //public HttpResponseMessage PutResponse(string url, object model)
+        //{
+        //    return client.PutAsJsonAsync(url, model).Result;
+        //}
+
+
         //Method for Login
         #region
         public HttpResponseMessage VerifyLogin(string url, object model)
         {
             return client.PostAsJsonAsync(url, model).Result;
         }
+
         #endregion
     }
 }
